@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Data Storage</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .container { width: 50%; margin: auto; }
+        input, textarea { width: 100%; margin: 5px 0; padding: 8px; }
+        button { padding: 10px; background: blue; color: white; border: none; cursor: pointer; }
+        .member { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Family Data Storage</h1>
+    <div class="container">
+        <input type="text" id="name" placeholder="Name">
+        <input type="text" id="relation" placeholder="Relation">
+        <input type="file" id="photo" accept="image/*">
+        <textarea id="bio" placeholder="Bio-data"></textarea>
+        <button onclick="addMember()">Add Member</button>
+        <div id="familyList"></div>
+    </div><script>
+    function addMember() {
+        let name = document.getElementById('name').value;
+        let relation = document.getElementById('relation').value;
+        let bio = document.getElementById('bio').value;
+        let photo = document.getElementById('photo').files[0];
+        
+        if (!name || !relation || !photo) {
+            alert("Please fill all fields and add a photo");
+            return;
+        }
+        
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let memberDiv = document.createElement('div');
+            memberDiv.className = 'member';
+            memberDiv.innerHTML = `<img src="${e.target.result}" width="100"><h3>${name} (${relation})</h3><p>${bio}</p>`;
+            document.getElementById('familyList').appendChild(memberDiv);
+        };
+        reader.readAsDataURL(photo);
+    }
+</script>
+
+</body>
+</html>
